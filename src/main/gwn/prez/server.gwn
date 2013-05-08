@@ -23,9 +23,9 @@
 ! Now we have the #'prez.server/app-routes and #'prez.server/app vars
 
 : serve-prez [options --]
-  app serve invoke-apply2 ;
+  app serve apply2 ;
 
 : stop-prez [server --]
-  #(.stop %) invoke-apply
+  #(.stop %) apply
   ! nil is returned when server is stopped successfully
   < "Server successfully stopped." println > when-not ;
