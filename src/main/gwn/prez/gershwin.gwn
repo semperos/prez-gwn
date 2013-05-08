@@ -1,0 +1,19 @@
+(ns prez.gershwin
+  (:require [gershwin.core :refer :all]
+            [gershwin.rt :refer [pop-it]]
+            [hiccup.core :as hiccup]))
+
+'[gershwin.string :refer [replace]] require
+
+: html "Wrapper for hiccup.core/html"
+  [x -- s]
+  (hiccup/html (pop-it)) ;
+
+: gwn-markup-word-defs [code -- markup]
+  [:span.function
+   [:span.keyword "$1"]
+   [:span.title "$2 "]
+   [:span.prompt "$3"]
+   "$4"
+   [:span.keyword "$5"]]
+  html ;

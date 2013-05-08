@@ -1,0 +1,13 @@
+(ns prez.main
+  (:require [gershwin.core :refer :all])
+  (:gen-class))
+
+'[gershwin.string :as str] require
+'prez.gershwin require
+'[prez.server :refer [serve-prez]] require
+
+: msg [-- n] "Generating presentation..." ;
+
+: -main []
+  msg println
+  {:port 4040} serve-prez ;
