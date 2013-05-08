@@ -5,15 +5,31 @@
 
 '[gershwin.string :refer [replace]] require
 
-: html "Wrapper for hiccup.core/html"
+: html "Wrapper for hiccup.core/html macro."
   [x -- s]
   (hiccup/html (pop-it)) ;
 
 : gwn-markup-word-defs [code -- markup]
+  #"(?s)(:\s+)([^\s]+)\s+(\[[^\]]+\])(.*?)( ;)"
   [:span.function
    [:span.keyword "$1"]
    [:span.title "$2 "]
    [:span.prompt "$3"]
    "$4"
-   [:span.keyword "$5"]]
-  html ;
+   [:span.keyword "$5"]] html replace ;
+
+: word-replace-pattern "Pattern for matching against a specific word in light of words."
+  [words word]
+  !! Check for < and > in coll of words
+  swap ["<" ">"] has-items
+  !! Match boundaries differently based on their presence
+  < swap "(\\s" swap "\\s)" str3 >
+  < swap "\\b(" swap ")\\b" str3 > if ;
+
+: replace-output
+  [state -- state]
+  42 ;
+
+: replace-words
+  [code words replacement -- s]
+  42 ;
