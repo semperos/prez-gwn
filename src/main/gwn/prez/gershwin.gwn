@@ -18,7 +18,7 @@
    [:span.title "$2 "]
    [:span.prompt "$3"]
    "$4"
-   [:span.keyword "$5"]] html replace ;
+   [:span.keyword "$5"]] html str/replace ;
 
 : word-pattern "Pattern for matching against a specific word or syntactic form with proper word (space) boundaries."
   [words word]
