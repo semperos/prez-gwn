@@ -10,4 +10,5 @@
 
 : -main []
   msg println
+  ": foo [-- n] 42 ;" code-gwn println
   {:port 4040} serve-prez ;
