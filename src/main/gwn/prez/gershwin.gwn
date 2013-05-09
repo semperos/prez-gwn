@@ -3,14 +3,15 @@
             [gershwin.rt :refer [pop-it]]
             [hiccup.core :as hiccup]))
 
-'[gershwin.string :refer [replace]] require
+'[gershwin.string :as str] require
 
-: html "Wrapper for hiccup.core/html macro."
+: html "Gershwin wrapper word for hiccup.core/html macro."
   [x -- s]
   (hiccup/html (pop-it)) ;
 
-: gwn-markup-word-defs [code -- markup]
-  #"(?s)(:\s+)([^\s]+)\s+(\[[^\]]+\])(.*?)( ;)"
+: gwn-markup-word-defs "Generate HTML output for a Gershwin word definition."
+  [code -- markup]
+  #"(?s)(:\s+)([^\s]+)\s+(\[[^\]]*\])(.*?)( ;)"
   [:span.function
    [:span.keyword "$1"]
    [:span.title "$2 "]
@@ -18,7 +19,7 @@
    "$4"
    [:span.keyword "$5"]] html replace ;
 
-: word-replace-pattern "Pattern for matching against a specific word in light of words."
+: word-pattern "Pattern for matching against a specific word or syntactic form with proper word (space) boundaries."
   [words word]
   !! Check for < and > in coll of words
   swap ["<" ">"] has-items
@@ -26,10 +27,57 @@
   < swap "(\\s" swap "\\s)" str3 >
   < swap "\\b(" swap ")\\b" str3 > if ;
 
-: replace-output
-  [state -- state]
-  42 ;
+: quotations "Gershwin quotation syntax."
+  [-- coll]
+  [">" "<"] ;
 
-: replace-words
-  [code words replacement -- s]
-  42 ;
+: quotation-replacement "Replacement pattern for quotation syntax"
+  [-- s]
+  [:span.quotation "$1"] html ;
+
+: builtins "Builtin Gershwin words that should be highlighted."
+  [-- coll]
+  ["swap" "dup" "dup2" "dup3" "drop" "drop2" "drop3" "nip" "nip2" "rot"
+   "over" "over2" "pick" "dip" "dip2" "dip3" "dip4" "dupd" "keep" "keep2" "keep3"
+   "bi" "bi2" "bi3" "tri" "tri2" "tri3" "bi\\*" "bi2\\*" "tri\\*" "tri2\\*" "boolean"
+   "bi&" "bi2&" "tri&" "tri2&" "both\\?" "either\\?" "\\+" "-" "\\*" "div" "lt"
+   "gt" "lt=" "gt=" "odd\\?" "even\\?" "=" "assoc" "conj" "cons" "dissoc" "print-doc"
+   "meta" "invoke" "apply" "apply2" "apply3" "apply-swap"
+   "load" "require" "reload" "compile" "clear" "pr" "prn" "print" "println"
+   "type" "symbol" "symbol?"
+   "function\\?" "var" "gershwin-var" "if" "if-not" "when" "when-not" "\\?" "or" "and"
+   "re-pattern" "str" "str2" "str3" "take" "map" "reduce" "filter" "remove" "in-ns"
+   "first" "second" "last" "peek"] ;
+
+: builtin-replacement "Replacement pattern for builtin language forms"
+  [-- s]
+  [:span.keyword "$1"] html ;
+
+: replace-builtins
+  [code -- s]
+  builtins swap
+  <
+    "\\b(" swap ")\\b" str3 re-pattern
+    builtin-replacement
+    str/replace
+  > reduce-with ;
+
+: replace-quotations
+  [code -- s]
+  quotations swap
+  <
+    "(\\s" swap "\\s)" str3 re-pattern
+    quotation-replacement
+    str/replace
+  > reduce-with ;
+
+: gwn-markup "@todo Get quotation replacement working"
+  [code -- code-markup]
+  gwn-markup-word-defs
+  replace-builtins ;
+
+
+: code-gwn
+  [code -- code-markup]
+  gwn-markup [:code.python] swap conj
+  [:pre] swap conj ;
