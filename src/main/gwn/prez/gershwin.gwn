@@ -1,4 +1,5 @@
-(ns prez.gershwin
+(ns ^{:doc "Utilities for generating HTML markup that supports syntax highlighting Gershwin code examples."}
+  prez.gershwin
   (:require [gershwin.core :refer :all]
             [gershwin.rt :refer [pop-it]]
             [hiccup.core :as hiccup]))
