@@ -3,7 +3,7 @@
   (:gen-class))
 
 '[gershwin.string :as str] require
-'prez.gershwin require
+'[prez.gershwin :refer [code-gwn]] require
 '[prez.server :refer [serve-prez]] require
 
 : msg [-- n] "Generating presentation..." ;
