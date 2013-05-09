@@ -1,35 +1,9 @@
-# gwn
+# Prez
 
-FIXME: description
-
-## Installation
-
-Download from http://example.com/FIXME.
-
-## Usage
-
-FIXME: explanation
-
-    $ java -jar gwn-0.1.0-standalone.jar [args]
-
-## Options
-
-FIXME: listing of options this app accepts.
-
-## Examples
-
-...
-
-### Bugs
-
-...
-
-### Any Other Sections
-### That You Think
-### Might be Useful
+HTML presentations with Reveal.js, written in the Gershwin programming language.
 
 ## License
 
-Copyright © 2013 FIXME
+Copyright © 2013 Daniel Gregoire
 
 Distributed under the Eclipse Public License, the same as Clojure.
