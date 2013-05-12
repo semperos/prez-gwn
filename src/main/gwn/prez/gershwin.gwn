@@ -23,7 +23,7 @@
 : word-pattern "Pattern for matching against a specific word or syntactic form with proper word (space) boundaries."
   [words word]
   !! Check for < and > in coll of words
-  swap ["<" ">"] swap has-items?
+  swap ["<" ">"] swap member?
   !! Match boundaries differently based on their presence
   < swap "(\\s" swap "\\s)" str3 >
   < swap "\\b(" swap ")\\b" str3 > if ;
